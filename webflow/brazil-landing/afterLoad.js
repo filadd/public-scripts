@@ -3,6 +3,8 @@
 const logoutButton = document.querySelector("#log-out");
 const alreadyUserButton = document.querySelector("#already-user");
 
-window.userData
-  ? (logoutButton.style.display = "inline-block")
-  : (alreadyUserButton.style.display = "inline-block");
+if (window.userData) {
+  logoutButton.style.display = "inline-block";
+} else {
+  alreadyUserButton.style.display = "inline-block";
+}
