@@ -1,4 +1,3 @@
-// Should load script on end of <body></body>
 const getAuthenticationToken = async () => {
   const cookieAuthToken = await cookieStore.get("auth._token.local");
 
@@ -39,6 +38,13 @@ const getUserData = async (locale) => {
   return data.user;
 };
 
+const displayBody = (display) => {
+  const body = document.querySelector("body");
+  if (body) {
+    body.style.display = display;
+  }
+};
+
 const logoutButton = document.querySelector("#log-out");
 const alreadyUserButton = document.querySelector("#already-user");
 
@@ -62,10 +68,20 @@ getUserData("BR").then((userData) => {
     const url = `https://www.filadd.com.br/courses/${courseSlug}/content`;
 
     window.location.href = url;
-    window.document.body.innerHTML =
-      '<div id="redirect_message"><div>↗️ Redirecionando para seu curso...</div></div>';
+    document.body.style.backgroundColor = "#000064";
+    document.body.innerHTML = `<div>
+    <div class="loading_logo">
+    <img
+        src="https://static.filadd.com/new-identity/logo/filadd_negative.svg"
+        alt="Academia Filadd"
+    />
+    <div class="ll_spinner"></div>
+    </div>
+    <div class="ll_text">
+    Redirecionando para seu curso!
+    </div>
+</div>`;
     return;
   }
-
   displayAuthButtons(userData);
 });
