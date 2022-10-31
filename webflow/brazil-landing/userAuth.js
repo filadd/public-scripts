@@ -1,15 +1,28 @@
-const getAuthenticationToken = async () => {
-  const cookieAuthToken = await cookieStore.get("auth._token.local");
+function getCookie(name) {
+  var v = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
+  return v ? v[2] : null;
+}
+function setCookie(name, value, days) {
+  var d = new Date();
+  d.setTime(d.getTime() + 24 * 60 * 60 * 1000 * days);
+  document.cookie = name + "=" + value + ";path=/;expires=" + d.toGMTString();
+}
+function deleteCookie(name) {
+  setCookie(name, "", -1);
+}
 
-  const authenticationToken = cookieAuthToken?.value?.startsWith("Bearer")
-    ? decodeURIComponent(cookieAuthToken.value)
+const getAuthenticationToken = () => {
+  const cookieAuthToken = getCookie("auth._token.local");
+
+  const authenticationToken = cookieAuthToken?.startsWith("Bearer")
+    ? decodeURIComponent(cookieAuthToken)
     : undefined;
 
   return authenticationToken;
 };
 
 const getUserData = async (locale) => {
-  const authToken = await getAuthenticationToken();
+  const authToken = getAuthenticationToken();
   if (!authToken) {
     return null;
   }
@@ -50,14 +63,14 @@ const alreadyUserButton = document.querySelector("#already-user");
 
 const displayAuthButtons = (userData) => {
   if (userData) {
-    logoutButton.style.display = "inline-block";
+    logoutButton.style.display = "inline";
   } else {
-    alreadyUserButton.style.display = "inline-block";
+    alreadyUserButton.style.display = "inline";
   }
 };
 
-logoutButton.addEventListener("click", async () => {
-  await cookieStore.delete("auth._token.local");
+logoutButton.addEventListener("click", () => {
+  deleteCookie("auth._token.local");
 });
 
 getUserData("BR").then((userData) => {
@@ -80,7 +93,7 @@ getUserData("BR").then((userData) => {
     <div class="ll_text">
     Redirecionando para seu curso!
     </div>
-</div>`;
+    </div>`;
     return;
   }
   displayAuthButtons(userData);
