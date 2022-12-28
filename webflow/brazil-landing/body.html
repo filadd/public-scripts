@@ -1,3 +1,4 @@
+<!-- userAuth - Loading Screen - display login buttons -->
 <script>
   function getCookie(name) {
     var v = document.cookie.match("(^|;) ?" + name + "=([^;]*)(;|$)");
@@ -55,13 +56,6 @@
     return data.user;
   };
 
-  const displayBody = (display) => {
-    const body = document.querySelector("body");
-    if (body) {
-      body.style.display = display;
-    }
-  };
-
   const logoutButton = document.querySelector("#log-out");
   const alreadyUserButton = document.querySelector("#already-user");
 
@@ -87,23 +81,24 @@
       window.location.href = url;
       document.body.style.backgroundColor = "#000064";
       document.body.innerHTML = `<div>
-        <div class="loading_logo">
-        <img
-            src="https://static.filadd.com/new-identity/logo/filadd_negative.svg"
-            alt="Academia Filadd"
-        />
-        <div class="ll_spinner"></div>
-        </div>
-        <div class="ll_text">
-        Redirecionando para seu curso!
-        </div>
-        </div>`;
+          <div class="loading_logo">
+          <img
+              src="https://static.filadd.com/new-identity/logo/filadd_negative.svg"
+              alt="Academia Filadd"
+          />
+          <div class="ll_spinner"></div>
+          </div>
+          <div class="ll_text">
+          Redirecionando para seu curso!
+          </div>
+          </div>`;
       return;
     }
     displayAuthButtons(userData);
   });
 </script>
 
+<!-- Countdown Timer for Rush to Buy -->
 <script>
   // Countdown Timer
   (function () {
